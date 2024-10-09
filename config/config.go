@@ -1,26 +1,20 @@
 package config
 
 import (
-	"fmt"
-	"net/http"
-	"urlshortner/internal"
-	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
+	"log"
 )
 
-func InitializeApp() {
-	fmt.Println("inside initializeApp")
+func InitConfig() {
+	viper.SetConfigName("config")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./config")
 
-	router := gin.Default();
-
-	router.GET("/test", test)
-	router.POST("/shorten", internal.GenerateShortenUrl)
-	router.POST("/redirect", internal.RedirectToOriginalUrl)
-	router.POST("/all", internal.GetAllMapping)
-
-	router.Run("localhost:8080")
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("Error reading config file, %s", err)
+	}
 }
 
-func test(context *gin.Context) {
-	fmt.Println("testing OK!")
-	context.JSON(http.StatusOK, "testing OK!")
+func GetDBConfig(key string) string {
+	return viper.GetString(key)
 }

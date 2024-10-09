@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"urlshortner/config"
+	"urlshortner/internal/api"
 )
 
 func main() {
-	fmt.Println("Url shortner service is up")
-	config.InitializeApp()
+	api.InitializeApp()
+	fmt.Println("Url shortener service is up")
 }
